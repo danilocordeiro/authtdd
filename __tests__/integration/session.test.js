@@ -1,12 +1,29 @@
+const request = require('supertest');
+
+const app = require('../../src/app');
 const { User } = require('../../src/app/models');
+const truncate = require('../utils/truncate');
 
 describe('Authentication', () => {
-  it('should receive JWT token when authenticated with valid credentials', async() => {
-    const user = await User.create({ name: 'Juliana', email: 'ju@gata.com', password_hash: 'hjk123'});
+  beforeEach(async() => {
+    await truncate();
+  })
 
-    console.log(user);
+  it('should authenticated with valid credentials', async() => {
+    const user = await User.create({ 
+      name: 'Juliana', 
+      email: 'ju@gata.com', 
+      password_hash: 'hjk123'
+    });
 
-    expect(user.email).toBe('ju@gata.com');
+    const response = await request(app)
+      .post('/sessions')
+      .send({
+        email: user.email,
+        password: '123465'
+      });
+
+    expect(response.status).toBe(200);
   });
 });
 
