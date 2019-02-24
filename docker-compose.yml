@@ -6,3 +6,9 @@ services:
     ports:
       - "3000:3000"
     command: yarn start
+  mydb:
+    image: postgres
+    volumes:
+      - db-data: /var/lib/postgresql/data
+    ports:
+      - 5432:5432
