@@ -1,7 +1,10 @@
 const routes = require('express').Router();
+const { User } = require('./app/models');
 
-routes.use('/', () => {
-  console.log("routes working");  
+User.create({
+  name: "Cordeiro", 
+  email: "cord@gmail.com",
+  password_hash: "iouijklghj123"
 })
 
 module.exports = routes;
